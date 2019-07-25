@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
 .letter-btn {
     height: 50px;
     width: 50px;
@@ -7,4 +13,25 @@
     padding: 10px;
     font-size: 1.5rem;
     color: rgb(218, 66, 66);
+}
+.letter-container {
+    height: 70px;
+    width: 55px;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+}
+.letter {
+    font-size: 3rem;
+}
+.underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    width: 55px;
+    border-radius: 15px;
+    background-color: black;
 }

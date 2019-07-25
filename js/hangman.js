@@ -72,3 +72,18 @@ const renderLifeIcons = (NumOfLifes) => {
     }
     return lifes.join('');
 }
+
+const htmlLetterContainer = (letter) => {
+    return (`
+        <div class="letter-container">
+            <div class="letter"></div>
+            <div class="underline"></div>
+        </div>
+    `);
+}
+
+const renderLetterContainers = (titleFilm) => {
+    let space = '<div class="letter-container"></div>';
+    let titleArr = titleFilm.split('');
+    return titleArr.map(val => val !== ' ' ? htmlFilmLetter(val) : space ).join('');
+}
