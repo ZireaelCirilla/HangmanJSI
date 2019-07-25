@@ -26,3 +26,10 @@ var array = [{
 
 //filter de pelicula respecto a la letra introducida
 
+var hangMan = {
+    html: [
+        "guion por letra",
+        "listener teclado",
+        "un botón por tecla"
+    ]
+}
