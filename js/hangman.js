@@ -50,3 +50,15 @@ const renderButtons = () => {
     let abc = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('');
     return abc.map(letter => htmlButton(letter)).join('');
 }
+
+const htmlLifeIcon = () => {
+    return '<div class="life"><i class="fas fa-heart"></i></div>';
+}
+
+const renderLifeIcons = (NumOfLifes) => {
+    let lifes = [];
+    for(let i=0; i<NumOfLifes; i++){
+        lifes.push(htmlLifeIcon());
+    }
+    return lifes.join('');
+}
