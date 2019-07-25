@@ -4,16 +4,46 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
 }
+
+body {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.top--row {
+    flex-basis: 100%;
+    min-height: 10vh;
+    background-color: red;
+}
+
+.middle--row {
+    flex-basis: 100%;
+    min-height: 45vh;
+    background-color: blue;
+}
+
+.bottom--row {
+    flex-basis: 100%;
+    min-height: 45vh;
+    background-color: yellow;
+}
+
+#game--container {
+    display: flex;
+}
+
 .letter-btn {
     height: 50px;
     width: 50px;
 }
+
 .life {
     display: inline-block;
     padding: 10px;
     font-size: 1.5rem;
     color: rgb(218, 66, 66);
 }
+
 .letter-container {
     height: 70px;
     width: 55px;
@@ -23,9 +53,11 @@
     align-items: center;
     margin: 0 10px;
 }
+
 .letter {
     font-size: 3rem;
 }
+
 .underline {
     position: absolute;
     bottom: 0;
