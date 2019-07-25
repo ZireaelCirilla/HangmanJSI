@@ -37,9 +37,19 @@ function startGame() {
 
 }
 
+console.log(timeLimit(1000))
+
 function getGuessingWord(arr) {
     var guessIndex = parseInt(Math.random() * guessArr.length)
     return arr[guessIndex]
+}
+
+function timeLimit(time) {
+    var timer = setTimeout(() => {
+        // game finished logic goes here
+        console.log(`Timer set for ${time} miliseconds`);
+    }, time);
+    return timer
 }
 
 const htmlButton = (val) => {
