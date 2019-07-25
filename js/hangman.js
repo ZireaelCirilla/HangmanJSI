@@ -47,6 +47,18 @@ function startGame() {
 
 }
 
+function getCharacterMatches(word, char) {
+    var indices = [];
+    for (var i = 0; i < word.length; i++) {
+        if (word[i] === char) indices.push(i);
+    }
+    if (indices != []) {
+        return indices
+    } else {
+        return -1
+    }
+}
+
 function getGuessingWord(arr) {
     var guessIndex = parseInt(Math.random() * guessArr.length)
     return arr[guessIndex]
@@ -107,5 +119,5 @@ const htmlLetterContainer = (letter) => {
 const renderLetterContainers = (titleFilm) => {
     let space = '<div class="letter-container"></div>';
     let titleArr = titleFilm.split('');
-    return titleArr.map(val => val !== ' ' ? htmlFilmLetter(val) : space ).join('');
+    return titleArr.map(val => val !== ' ' ? htmlFilmLetter(val) : space).join('');
 }
