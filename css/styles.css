@@ -1,7 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.top--row {
+    flex-basis: 100%;
+    min-height: 10vh;
+    background-color: red;
+}
+
+.middle--row {
+    flex-basis: 100%;
+    min-height: 45vh;
+    background-color: blue;
+}
+
+.bottom--row {
+    flex-basis: 100%;
+    min-height: 45vh;
+    background-color: yellow;
+}
+
+#game--container {
+    display: flex;
+}
+
 .letter-btn {
     height: 50px;
     width: 50px;
 }
+
 .life {
     display: inline-block;
     padding: 10px;
