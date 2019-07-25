@@ -1,25 +1,25 @@
 var guessArr = [{
     name: "Los Vengadores",
-    pistas: ["Son un equipo", ""]
+    clues: ["Son un equipo", "Protejen la tierra"]
 }, {
     name: "Iron-Man",
-    pistas: ["asdasdasd", "asdasdasd"]
+    clues: ["Es rojo", "Parece hecho de oro"]
 },
 {
     name: "Sully",
-    pistas: ["asdasdasd", "asdasdasd"]
+    clues: ["Hudson", "My Aircraft"]
 },
 {
     name: "DeadPool",
-    pistas: ["asdasdasd", "asdasdasd"]
+    clues: ["Piscina", "Roja"]
 },
 {
     name: "Terminal",
-    pistas: ["asdasdasd", "asdasdasd"]
+    clues: ["Deseo de un padre", "Hijo ejemplar"]
 },
 {
     name: "El Rey León",
-    pistas: ["asdasdasd", "asdasdasd"]
+    clues: ["Live Action", "Hakuna-Matata"]
 },
 ];
 
@@ -29,6 +29,16 @@ function startGame() {
     var playing = true;
     var wordObj = getGuessingWord(guessArr);
     var wordName = wordObj.name
+
+    //Testing for the clue generator
+    // var clues1 = generateClue(wordObj)
+    // var clues2 = generateClue(getGuessingWord(guessArr))
+
+    // console.log(clues1());
+    // console.log(clues1());
+    // console.log(clues2());
+    // console.log(clues2());
+
     if (playing) {
         // sustituir a por el input
         var char = "a"
@@ -37,19 +47,31 @@ function startGame() {
 
 }
 
-console.log(timeLimit(1000))
-
 function getGuessingWord(arr) {
     var guessIndex = parseInt(Math.random() * guessArr.length)
     return arr[guessIndex]
 }
 
-function timeLimit(time) {
+function startTimer(time) {
     var timer = setTimeout(() => {
         // game finished logic goes here
         console.log(`Timer set for ${time} miliseconds`);
     }, time);
     return timer
+}
+
+function generateClue(wordObj) {
+    console.log(wordObj);
+    var clueCounter = 0
+    return function () {
+        if (clueCounter <= wordObj.clues.length - 1) {
+            return wordObj.clues[clueCounter++]
+        } else {
+            console.log(clueCounter);
+            console.log(wordObj.clues);
+            return "No more clues :("
+        }
+    }
 }
 
 const htmlButton = (val) => {
@@ -67,7 +89,7 @@ const htmlLifeIcon = () => {
 
 const renderLifeIcons = (NumOfLifes) => {
     let lifes = [];
-    for(let i=0; i<NumOfLifes; i++){
+    for (let i = 0; i < NumOfLifes; i++) {
         lifes.push(htmlLifeIcon());
     }
     return lifes.join('');
