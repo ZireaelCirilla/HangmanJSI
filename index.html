@@ -5,29 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<<<<<<< HEAD
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
         integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-=======
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
->>>>>>> 1ee600c54d78b2c706a9ce06c07a6609f2da15bf
     <title>Document</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
     <div class="top--row">
-        Hang-Man!
+        <p class="title">Hang-Man!
+        </p>
     </div>
-    <div class="middle--row" id="game--container">
-        <div class="characters--container"></div>
+    <div class="middle--row flex" id="game--container">
         <div class="hangman--container">
 
         </div>
+        <div class="characters--container flex">
+            <div class="characters--container--fullword">
+
+            </div>
+            <div class="characters--container--clues">
+                <p id="firstClue" class="clues"></p>
+                <p id="secondClue" class="clues"></p>
+            </div>
+        </div>
     </div>
     <div class="bottom--row">
-
+        <p id="action--feedback"></p>
+        <div class="keyboard--container">
+        </div>
     </div>
     <script src="js/hangman.js"></script>
 </body>
