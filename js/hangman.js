@@ -32,9 +32,9 @@ const renderButtons = () => {
     return abc.map(letter => htmlButton(letter)).join('');
 }
 
-const addListenerButtons = (word, callback) => {
+const addListenerButtons = (word, counter, clues, callback) => {
     let arrBtn = document.querySelectorAll('.letter-btn');
-    arrBtn.forEach(btn => btn.addEventListener('click', (e) => {callback(word, e)}));
+    arrBtn.forEach(btn => btn.addEventListener('click', (e) => { callback(word, counter, clues, e) }));
 }
 
 const htmlLifeIcon = () => {
@@ -65,27 +65,42 @@ const renderLetterContainers = (titleFilm) => {
     let titleArr = titleFilm.split('');
     return titleArr.map(val => htmlLetterContainer(val)).join('');
 }
-const printChar = (word, e) => {
+
+const printChar = (wordObj, counter, clues, e) => {
     let char = e.target.innerHTML;
     let letters = document.querySelectorAll('.letter');
-    let charIndexArr = getCharacterMatches(word, char);
+    let charIndexArr = getCharacterMatches(wordObj.name, char);
     e.target.setAttribute('disabled', '');
-    if(charIndexArr != -1) {
+    if (Array.isArray(charIndexArr)) {
+        console.log("wtf");
+
         charIndexArr.forEach(index => {
             letters[index].innerHTML = char;
-        } );
+        });
+    } else {
+        console.log("WRONG");
+        var failCounter = counter()
+        if (failCounter == 2) {
+            printClues(clues(), "firstClue")
+        } else if (failCounter == 4) {
+            console.log("fourth fail");
+
+            printClues(clues(), "secondClue")
+        }
+
     }
 }
 
 startGame()
 
 function startGame() {
-    var playing = true;
+    var counter = countFailures();
     var wordObj = getGuessingWord(guessArr);
+    var clues = generateClue(wordObj)
     var wordName = wordObj.name
     document.querySelector('.keyboard--container').innerHTML = renderButtons();
-    addListenerButtons(wordName, printChar);
-    document.querySelector('.characters--container').innerHTML = renderLetterContainers(wordName);
+    addListenerButtons(wordObj, counter, clues, printChar);
+    document.querySelector('.characters--container--fullword').innerHTML = renderLetterContainers(wordName);
 
     //Testing for the clue generator
     // var clues1 = generateClue(wordObj)
@@ -96,27 +111,32 @@ function startGame() {
     // console.log(clues2());
     // console.log(clues2());
 
-    if (playing) {
-        // sustituir a por el input
-        var char = "a"
-        console.log(wordName.indexOf(char));
-    }
-
 }
 
 
 
 function getCharacterMatches(word, char) {
     word = word.replace(/\s/g, '');
+    console.log(word);
     var indices = [];
     for (var i = 0; i < word.length; i++) {
         if (word[i].toLowerCase() == char.toLowerCase()) indices.push(i);
+        console.log(indices);
     }
-    if (indices != []) {
+    if (indices.length > 0) {
+        console.log("indices.length");
         return indices
     } else {
         return -1
     }
+
+    // try {
+    //     indices[0]
+    //     return indices
+    // } catch (error) {
+    //     return -1
+    // }
+
 }
 
 function getGuessingWord(arr) {
@@ -144,4 +164,18 @@ function generateClue(wordObj) {
             return "No more clues :("
         }
     }
+}
+
+function countFailures() {
+    var failures = 0
+    return function () {
+        console.log(`Failures ${failures}`);
+        return failures += 1
+    }
+}
+
+function printClues(clue, id) {
+    //   return 
+    // d
+    document.getElementById(id).innerHTML = clue
 }

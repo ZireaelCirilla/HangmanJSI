@@ -54,6 +54,14 @@ body {
 
 .characters--container--fullword {
     flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.characters--container--clues {
+    height: 60px;
+    width: 100%;
     text-align: center;
 }
 
