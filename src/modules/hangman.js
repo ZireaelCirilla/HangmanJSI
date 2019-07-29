@@ -4,11 +4,7 @@ export function getCharacterMatches(word, char) {
     for (var i = 0; i < word.length; i++) {
         if (word[i].toLowerCase() == char.toLowerCase()) indices.push(i);
     }
-    if (indices.length > 0) {
-        return indices
-    } else {
-        return -1
-    }
+    return indices;
 }
 
 export function getGuessingWord(arr) {
@@ -33,4 +29,3 @@ export function countFailures() {
         return failures += 1
     }
 }
-

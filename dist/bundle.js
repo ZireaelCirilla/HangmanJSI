@@ -93,6 +93,42 @@ var guessArr = [{
   clues: ["Live Action", "Hakuna-Matata"]
 }];
 
+const errorHandler = (counter, timer, clues) => {
+  var failCounter = counter();
+
+  switch (failCounter) {
+    case 1:
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/head.png');
+      break;
+
+    case 2:
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/body.png');
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues(), "firstClue");
+      break;
+
+    case 3:
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/left-arm.png');
+      break;
+
+    case 4:
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/right-arm.png');
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues(), "secondClue");
+      break;
+
+    case 5:
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/left-leg.png');
+      break;
+
+    case 6:
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/right-leg.png');
+      finishGame(timer);
+      break;
+
+    default:
+      break;
+  }
+};
+
 function startTimer(callback, time) {
   let i = time;
   let timer = setInterval(() => {
@@ -103,11 +139,18 @@ function startTimer(callback, time) {
   return timer;
 }
 
+const restart = () => {
+  document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/horca.png');
+  document.getElementById('modal-container').style.display = 'none';
+  startGame();
+};
+
 const finishGame = timer => {
   console.log('finish game');
   clearInterval(timer);
-  document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
-  startGame();
+  document.getElementById('modal-container').style.display = 'block';
+  document.getElementById('restart').addEventListener('click', restart);
 };
 
 const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
@@ -116,20 +159,12 @@ const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
   let charIndexArr = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["c" /* getCharacterMatches */](wordObj.name, char);
   e.target.setAttribute('disabled', '');
 
-  if (Array.isArray(charIndexArr)) {
+  if (charIndexArr.length > 0) {
     charIndexArr.forEach(index => {
       __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["b" /* printChar */](letters, char, index);
     });
   } else {
-    var failCounter = counter();
-
-    if (failCounter == 2) {
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues(), "firstClue");
-    } else if (failCounter == 4) {
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues(), "secondClue");
-    } else if (failCounter == 6) {
-      finishGame(timer);
-    }
+    errorHandler(counter, timer, clues);
   }
 };
 
@@ -138,9 +173,9 @@ function startGame() {
   var wordName = wordObj.name;
   var counter = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["a" /* countFailures */]();
   var clues = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["b" /* generateClue */](wordObj);
-  let timer = startTimer(__WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printTimer */], 30);
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["e" /* renderButtons */]();
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["f" /* renderLetterContainers */](wordName);
+  let timer = startTimer(__WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["e" /* printTimer */], 30);
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["f" /* renderButtons */]();
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["g" /* renderLetterContainers */](wordName);
   __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["a" /* addListenerButtons */](wordObj, counter, clues, btnClickedChecker, timer);
 }
 
@@ -162,7 +197,7 @@ const renderButtons = () => {
   let buttons = abc.map(letter => htmlButton(letter)).join('');
   document.querySelector('.keyboard--container').innerHTML = buttons;
 };
-/* harmony export (immutable) */ __webpack_exports__["e"] = renderButtons;
+/* harmony export (immutable) */ __webpack_exports__["f"] = renderButtons;
 
 const htmlLifeIcon = () => {
   return '<div class="life"><i class="fas fa-heart"></i></div>';
@@ -197,7 +232,7 @@ const renderLetterContainers = titleFilm => {
   let letters = titleArr.map(val => htmlLetterContainer(val)).join('');
   document.querySelector('.characters--container--fullword').innerHTML = letters;
 };
-/* harmony export (immutable) */ __webpack_exports__["f"] = renderLetterContainers;
+/* harmony export (immutable) */ __webpack_exports__["g"] = renderLetterContainers;
 
 function printClues(clue, id) {
   document.getElementById(id).innerHTML = clue;
@@ -213,12 +248,17 @@ const addListenerButtons = (word, counter, clues, callback, timer) => {
 const printTimer = time => {
   document.querySelector('#timer').innerHTML = time;
 };
-/* harmony export (immutable) */ __webpack_exports__["d"] = printTimer;
+/* harmony export (immutable) */ __webpack_exports__["e"] = printTimer;
 
 const printChar = (letters, char, index) => {
   letters[index].innerHTML = char;
 };
 /* harmony export (immutable) */ __webpack_exports__["b"] = printChar;
+
+const printImg = imgUrl => {
+  document.getElementById('hangman-img').style.backgroundImage = `url(${imgUrl})`;
+};
+/* harmony export (immutable) */ __webpack_exports__["d"] = printImg;
 
 
 /***/ }),
@@ -238,11 +278,7 @@ function getCharacterMatches(word, char) {
     if (word[i].toLowerCase() == char.toLowerCase()) indices.push(i);
   }
 
-  if (indices.length > 0) {
-    return indices;
-  } else {
-    return -1;
-  }
+  return indices;
 }
 function getGuessingWord(arr) {
   var guessIndex = parseInt(Math.random() * arr.length);

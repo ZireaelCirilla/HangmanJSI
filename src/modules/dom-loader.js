@@ -56,3 +56,7 @@ export const printTimer = (time) => {
 export const printChar = (letters, char, index) => {
         letters[index].innerHTML = char;
 }
+
+export const printImg = (imgUrl) => {
+    document.getElementById('hangman-img').style.backgroundImage = `url(${imgUrl})`; 
+}

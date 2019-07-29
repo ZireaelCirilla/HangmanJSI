@@ -28,6 +28,36 @@ var guessArr = [{
 ];
 
 
+const errorHandler = (counter, timer, clues) => {
+    var failCounter = counter();
+        
+    switch (failCounter) {
+        case 1:
+            DomLoader.printImg('../../images/head.png');
+            break;
+        case 2:
+            DomLoader.printImg('../../images/body.png');
+            DomLoader.printClues(clues(), "firstClue");
+            break;
+        case 3: 
+            DomLoader.printImg('../../images/left-arm.png');
+            break;
+        case 4:
+            DomLoader.printImg('../../images/right-arm.png');
+            DomLoader.printClues(clues(), "secondClue")
+            break;
+        case 5:
+            DomLoader.printImg('../../images/left-leg.png');
+            break;
+        case 6:
+            DomLoader.printImg('../../images/right-leg.png');
+            finishGame(timer);
+            break;
+        default:
+            break;
+    }
+}
+
 function startTimer(callback, time) {
     let i = time;
     let timer = setInterval(()=>{
@@ -38,11 +68,18 @@ function startTimer(callback, time) {
     return timer;
 }
 
+const restart = () => {
+    document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
+    DomLoader.printImg('../../images/horca.png');
+    document.getElementById('modal-container').style.display = 'none';
+    startGame();
+}
+
 const finishGame = (timer) => {
     console.log('finish game');
     clearInterval(timer);
-    document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
-    startGame();
+    document.getElementById('modal-container').style.display = 'block';
+    document.getElementById('restart').addEventListener('click', restart);
 }
 
 const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
@@ -50,20 +87,12 @@ const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
     let letters = document.querySelectorAll('.letter');
     let charIndexArr = HangMan.getCharacterMatches(wordObj.name, char);
     e.target.setAttribute('disabled', '');
-    if (Array.isArray(charIndexArr)) {
+    if (charIndexArr.length > 0) {
         charIndexArr.forEach(index => {
             DomLoader.printChar(letters, char, index);
         });
     } else {
-        var failCounter = counter()
-        if (failCounter == 2) {
-            DomLoader.printClues(clues(), "firstClue");
-
-        } else if (failCounter == 4) {
-            DomLoader.printClues(clues(), "secondClue")
-        } else if(failCounter == 6){
-            finishGame(timer);
-        }
+        errorHandler(counter, timer, clues);
     }
 }
 
