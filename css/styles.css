@@ -13,6 +13,10 @@ body {
 .top--row {
     flex-basis: 100%;
     min-height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 35px;
 }
 
 .middle--row {
@@ -79,6 +83,10 @@ body {
 .title {
     font-size: 48px;
     text-align: center;
+    margin: 0 auto;
+}
+#timer {
+    font-size: 24px;
 }
 
 .letter-btn {

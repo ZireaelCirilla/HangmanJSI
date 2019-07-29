@@ -93,7 +93,24 @@ var guessArr = [{
   clues: ["Live Action", "Hakuna-Matata"]
 }];
 
-const printChar = (wordObj, counter, clues, e) => {
+function startTimer(callback, time) {
+  let i = time;
+  let timer = setInterval(() => {
+    callback(i);
+    i--;
+    i == 0 ? finishGame(timer) : '';
+  }, 1000);
+  return timer;
+}
+
+const finishGame = timer => {
+  console.log('finish game');
+  clearInterval(timer);
+  document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
+  startGame();
+};
+
+const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
   let char = e.target.innerHTML;
   let letters = document.querySelectorAll('.letter');
   let charIndexArr = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["c" /* getCharacterMatches */](wordObj.name, char);
@@ -101,37 +118,40 @@ const printChar = (wordObj, counter, clues, e) => {
 
   if (Array.isArray(charIndexArr)) {
     charIndexArr.forEach(index => {
-      letters[index].innerHTML = char;
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["b" /* printChar */](letters, char, index);
     });
   } else {
     var failCounter = counter();
 
     if (failCounter == 2) {
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["b" /* printClues */](clues(), "firstClue");
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues(), "firstClue");
     } else if (failCounter == 4) {
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["b" /* printClues */](clues(), "secondClue");
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues(), "secondClue");
+    } else if (failCounter == 6) {
+      finishGame(timer);
     }
   }
 };
-
-startGame();
 
 function startGame() {
   var wordObj = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["d" /* getGuessingWord */](guessArr);
   var wordName = wordObj.name;
   var counter = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["a" /* countFailures */]();
   var clues = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["b" /* generateClue */](wordObj);
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* renderButtons */]();
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* renderLetterContainers */](wordName);
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["a" /* addListenerButtons */](wordObj, counter, clues, printChar);
+  let timer = startTimer(__WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printTimer */], 30);
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["e" /* renderButtons */]();
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["f" /* renderLetterContainers */](wordName);
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["a" /* addListenerButtons */](wordObj, counter, clues, btnClickedChecker, timer);
 }
+
+startGame();
 
 /***/ }),
 /* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = printClues;
+/* harmony export (immutable) */ __webpack_exports__["c"] = printClues;
 const htmlButton = val => {
   return `<button id="btn-${val}" class="letter-btn">${val}</button>`;
 };
@@ -142,7 +162,7 @@ const renderButtons = () => {
   let buttons = abc.map(letter => htmlButton(letter)).join('');
   document.querySelector('.keyboard--container').innerHTML = buttons;
 };
-/* harmony export (immutable) */ __webpack_exports__["c"] = renderButtons;
+/* harmony export (immutable) */ __webpack_exports__["e"] = renderButtons;
 
 const htmlLifeIcon = () => {
   return '<div class="life"><i class="fas fa-heart"></i></div>';
@@ -177,19 +197,29 @@ const renderLetterContainers = titleFilm => {
   let letters = titleArr.map(val => htmlLetterContainer(val)).join('');
   document.querySelector('.characters--container--fullword').innerHTML = letters;
 };
-/* harmony export (immutable) */ __webpack_exports__["d"] = renderLetterContainers;
+/* harmony export (immutable) */ __webpack_exports__["f"] = renderLetterContainers;
 
 function printClues(clue, id) {
   document.getElementById(id).innerHTML = clue;
 }
-const addListenerButtons = (word, counter, clues, callback) => {
+const addListenerButtons = (word, counter, clues, callback, timer) => {
   let arrBtn = document.querySelectorAll('.letter-btn');
   arrBtn.forEach(btn => btn.addEventListener('click', e => {
-    callback(word, counter, clues, e);
+    callback(word, counter, clues, e, timer);
   }));
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = addListenerButtons;
- // export * from ...;
+
+const printTimer = time => {
+  document.querySelector('#timer').innerHTML = time;
+};
+/* harmony export (immutable) */ __webpack_exports__["d"] = printTimer;
+
+const printChar = (letters, char, index) => {
+  letters[index].innerHTML = char;
+};
+/* harmony export (immutable) */ __webpack_exports__["b"] = printChar;
+
 
 /***/ }),
 /* 2 */
@@ -198,7 +228,6 @@ const addListenerButtons = (word, counter, clues, callback) => {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["c"] = getCharacterMatches;
 /* harmony export (immutable) */ __webpack_exports__["d"] = getGuessingWord;
-/* unused harmony export startTimer */
 /* harmony export (immutable) */ __webpack_exports__["b"] = generateClue;
 /* harmony export (immutable) */ __webpack_exports__["a"] = countFailures;
 function getCharacterMatches(word, char) {
@@ -213,22 +242,11 @@ function getCharacterMatches(word, char) {
     return indices;
   } else {
     return -1;
-  } // try {
-  //     indices[0]
-  //     return indices
-  // } catch (error) {
-  //     return -1
-  // }
-
+  }
 }
 function getGuessingWord(arr) {
   var guessIndex = parseInt(Math.random() * arr.length);
   return arr[guessIndex];
-}
-function startTimer(time) {
-  var timer = setTimeout(() => {// game finished logic goes here
-  }, time);
-  return timer;
 }
 function generateClue(wordObj) {
   var clueCounter = 0;

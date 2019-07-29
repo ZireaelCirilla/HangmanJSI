@@ -9,26 +9,11 @@ export function getCharacterMatches(word, char) {
     } else {
         return -1
     }
-
-    // try {
-    //     indices[0]
-    //     return indices
-    // } catch (error) {
-    //     return -1
-    // }
-
 }
 
 export function getGuessingWord(arr) {
     var guessIndex = parseInt(Math.random() * arr.length)
     return arr[guessIndex]
-}
-
-export function startTimer(time) {
-    var timer = setTimeout(() => {
-        // game finished logic goes here
-    }, time);
-    return timer
 }
 
 export function generateClue(wordObj) {

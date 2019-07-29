@@ -27,35 +27,55 @@ var guessArr = [{
 },
 ];
 
-const printChar = (wordObj, counter, clues, e) => {
+
+function startTimer(callback, time) {
+    let i = time;
+    let timer = setInterval(()=>{
+        callback(i);
+        i--;
+        i == 0 ? finishGame(timer) : '';
+    }, 1000);
+    return timer;
+}
+
+const finishGame = (timer) => {
+    console.log('finish game');
+    clearInterval(timer);
+    document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
+    startGame();
+}
+
+const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
     let char = e.target.innerHTML;
     let letters = document.querySelectorAll('.letter');
     let charIndexArr = HangMan.getCharacterMatches(wordObj.name, char);
     e.target.setAttribute('disabled', '');
     if (Array.isArray(charIndexArr)) {
         charIndexArr.forEach(index => {
-            letters[index].innerHTML = char;
+            DomLoader.printChar(letters, char, index);
         });
     } else {
         var failCounter = counter()
         if (failCounter == 2) {
-            DomLoader.printClues(clues(), "firstClue")
+            DomLoader.printClues(clues(), "firstClue");
+
         } else if (failCounter == 4) {
-
             DomLoader.printClues(clues(), "secondClue")
+        } else if(failCounter == 6){
+            finishGame(timer);
         }
-
     }
 }
-
-startGame()
 
 function startGame() {
     var wordObj = HangMan.getGuessingWord(guessArr);
     var wordName = wordObj.name
     var counter = HangMan.countFailures();
-    var clues = HangMan.generateClue(wordObj)
+    var clues = HangMan.generateClue(wordObj);
+    let timer = startTimer(DomLoader.printTimer, 30);
     DomLoader.renderButtons()
     DomLoader.renderLetterContainers(wordName);
-    DomLoader.addListenerButtons(wordObj, counter, clues, printChar);
+    DomLoader.addListenerButtons(wordObj, counter, clues, btnClickedChecker, timer);
 }
+
+startGame();

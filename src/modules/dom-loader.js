@@ -44,9 +44,15 @@ export function printClues(clue, id) {
     document.getElementById(id).innerHTML = clue
 }
 
-export const addListenerButtons = (word, counter, clues, callback) => {
+export const addListenerButtons = (word, counter, clues, callback, timer) => {
     let arrBtn = document.querySelectorAll('.letter-btn');
-    arrBtn.forEach(btn => btn.addEventListener('click', (e) => { callback(word, counter, clues, e) }));
+    arrBtn.forEach(btn => btn.addEventListener('click', (e) => { callback(word, counter, clues, e, timer) }));
 }
 
-// export * from ...;
+export const printTimer = (time) => {
+    document.querySelector('#timer').innerHTML = time; 
+}
+
+export const printChar = (letters, char, index) => {
+        letters[index].innerHTML = char;
+}
