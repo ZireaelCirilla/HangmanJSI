@@ -30,7 +30,8 @@ var guessArr = [{
 
 const errorHandler = (counter, timer, clues) => {
     var failCounter = counter();
-
+    var time = document.getElementById('timer').innerText
+    // timer inicial ya ha sido cancelado
     switch (failCounter) {
         case 1:
             DomLoader.printImg('../../images/head.png');
@@ -38,6 +39,8 @@ const errorHandler = (counter, timer, clues) => {
         case 2:
             DomLoader.printImg('../../images/body.png');
             DomLoader.printClues(clues(), "firstClue");
+            clearInterval(timer);
+            startTimer(DomLoader.printTimer, time - 5)
             break;
         case 3:
             DomLoader.printImg('../../images/left-arm.png');
@@ -45,6 +48,8 @@ const errorHandler = (counter, timer, clues) => {
         case 4:
             DomLoader.printImg('../../images/right-arm.png');
             DomLoader.printClues(clues(), "secondClue")
+            clearInterval(timer);
+            startTimer(DomLoader.printTimer, time - 5)
             break;
         case 5:
             DomLoader.printImg('../../images/left-leg.png');
@@ -63,7 +68,7 @@ function startTimer(callback, time) {
     let timer = setInterval(() => {
         callback(i);
         i--;
-        i == 0 ? finishGame(timer) : '';
+        i < 0 ? finishGame(timer) : '';
     }, 1000);
     return timer;
 }

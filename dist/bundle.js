@@ -95,6 +95,7 @@ var guessArr = [{
 
 const errorHandler = (counter, timer, clues) => {
   var failCounter = counter();
+  var time = document.getElementById('timer').innerText; // let newTimer;
 
   switch (failCounter) {
     case 1:
@@ -104,6 +105,8 @@ const errorHandler = (counter, timer, clues) => {
     case 2:
       __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/body.png');
       __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues(), "firstClue");
+      clearInterval(timer);
+      var secondTimer = startTimer(__WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["e" /* printTimer */], time - 5);
       break;
 
     case 3:
@@ -113,6 +116,8 @@ const errorHandler = (counter, timer, clues) => {
     case 4:
       __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/right-arm.png');
       __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues(), "secondClue");
+      clearInterval(secondTimer);
+      var thirdtimer = startTimer(__WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["e" /* printTimer */], time - 5);
       break;
 
     case 5:
@@ -121,7 +126,7 @@ const errorHandler = (counter, timer, clues) => {
 
     case 6:
       __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/right-leg.png');
-      finishGame(timer);
+      finishGame(thirdtimer);
       break;
 
     default:
@@ -134,7 +139,7 @@ function startTimer(callback, time) {
   let timer = setInterval(() => {
     callback(i);
     i--;
-    i == 0 ? finishGame(timer) : '';
+    i < 0 ? finishGame(timer) : '';
   }, 1000);
   return timer;
 }
@@ -157,7 +162,6 @@ function hideModal() {
 }
 
 const finishGame = timer => {
-  console.log('finish game');
   clearInterval(timer);
   showModal();
 };
@@ -176,15 +180,10 @@ const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
     errorHandler(counter, timer, clues);
   }
 
-  console.log(letters);
-  var arr = [];
-  letters.forEach(char => {
-    console.log(char.textContent);
-    char.textContent != '' ? arr.push(char) : '';
-  });
+  var lettersGuessed = [];
+  letters.forEach(char => char.textContent != '' ? lettersGuessed.push(char) : '');
 
-  if (arr.length == wordObj.name.replace(/\s/g, '').length) {
-    console.log('Entered');
+  if (lettersGuessed.length == wordObj.name.replace(/\s/g, '').length) {
     showModal('You guessed right!');
   }
 };
