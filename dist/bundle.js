@@ -142,15 +142,24 @@ function startTimer(callback, time) {
 const restart = () => {
   document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
   __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/horca.png');
-  document.getElementById('modal-container').style.display = 'none';
+  hideModal();
   startGame();
 };
+
+function showModal(title = "Game Over") {
+  document.getElementById('modal-container').style.display = 'block';
+  document.getElementById('modal--content').innerHTML = title;
+  document.getElementById('restart').addEventListener('click', restart);
+}
+
+function hideModal() {
+  document.getElementById('modal-container').style.display = 'none';
+}
 
 const finishGame = timer => {
   console.log('finish game');
   clearInterval(timer);
-  document.getElementById('modal-container').style.display = 'block';
-  document.getElementById('restart').addEventListener('click', restart);
+  showModal();
 };
 
 const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
@@ -165,6 +174,18 @@ const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
     });
   } else {
     errorHandler(counter, timer, clues);
+  }
+
+  console.log(letters);
+  var arr = [];
+  letters.forEach(char => {
+    console.log(char.textContent);
+    char.textContent != '' ? arr.push(char) : '';
+  });
+
+  if (arr.length == wordObj.name.replace(/\s/g, '').length) {
+    console.log('Entered');
+    showModal('You guessed right!');
   }
 };
 

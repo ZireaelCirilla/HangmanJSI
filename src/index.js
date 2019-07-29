@@ -30,7 +30,7 @@ var guessArr = [{
 
 const errorHandler = (counter, timer, clues) => {
     var failCounter = counter();
-        
+
     switch (failCounter) {
         case 1:
             DomLoader.printImg('../../images/head.png');
@@ -39,7 +39,7 @@ const errorHandler = (counter, timer, clues) => {
             DomLoader.printImg('../../images/body.png');
             DomLoader.printClues(clues(), "firstClue");
             break;
-        case 3: 
+        case 3:
             DomLoader.printImg('../../images/left-arm.png');
             break;
         case 4:
@@ -60,7 +60,7 @@ const errorHandler = (counter, timer, clues) => {
 
 function startTimer(callback, time) {
     let i = time;
-    let timer = setInterval(()=>{
+    let timer = setInterval(() => {
         callback(i);
         i--;
         i == 0 ? finishGame(timer) : '';
@@ -71,15 +71,23 @@ function startTimer(callback, time) {
 const restart = () => {
     document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
     DomLoader.printImg('../../images/horca.png');
-    document.getElementById('modal-container').style.display = 'none';
+    hideModal();
     startGame();
 }
 
-const finishGame = (timer) => {
-    console.log('finish game');
-    clearInterval(timer);
+function showModal(title = "Game Over") {
     document.getElementById('modal-container').style.display = 'block';
+    document.getElementById('modal--content').innerHTML = title;
     document.getElementById('restart').addEventListener('click', restart);
+}
+
+function hideModal() {
+    document.getElementById('modal-container').style.display = 'none';
+}
+
+const finishGame = (timer) => {
+    clearInterval(timer);
+    showModal();
 }
 
 const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
@@ -93,6 +101,11 @@ const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
         });
     } else {
         errorHandler(counter, timer, clues);
+    }
+    var lettersGuessed = [];
+    letters.forEach(char => char.textContent != '' ? lettersGuessed.push(char) : '');
+    if (lettersGuessed.length == wordObj.name.replace(/\s/g, '').length) {
+        showModal('You guessed right!')
     }
 }
 
