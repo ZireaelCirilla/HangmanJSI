@@ -49,3 +49,24 @@ export const printImg = (imgUrl) => {
 export const queryLetter = () => {
     return document.querySelectorAll('.letter');
 }
+
+export function showModalReset(title = "Game Over") {
+    hideModal();
+    document.getElementById('reset-container').style.display = 'block';
+    document.getElementById('modal--content').innerHTML = title;
+}
+
+export function hideModal() {
+    let containers = document.querySelectorAll('.modal-container');
+    containers.forEach(element => element.style.display = 'none');
+}
+
+export const showModalSearch = () => {
+    hideModal();
+    document.getElementById('search-container').style.display = 'block';
+}
+
+export const clearGameInterface = () => {
+    document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
+    printImg('/images/horca.png');
+}
