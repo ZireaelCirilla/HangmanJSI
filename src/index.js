@@ -154,7 +154,7 @@ function startGame() {
     clues.secondClue = wordObj.clues[1];
     DomLoader.renderButtons()
     DomLoader.renderLetterContainers(wordName);
-    DomLoader.addListenerButtons(wordObj, '.letter-btn',checkBtn);
+    DomLoader.addListenerButtons(wordObj, '.letter-btn', checkBtn);
     countDown.setTime(50);
     interval.init;
 }
