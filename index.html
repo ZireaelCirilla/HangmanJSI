@@ -14,25 +14,32 @@
 
 <body>
     <div class="top--row">
-        <button class="search-btn btn--options"><i class="fas fa-search"></i></button>
+        <button id="home-search" class="search-btn btn--options"><i class="fas fa-search"></i></button>
         <p class="title">Hang-Man!
         </p>
         <div id="timer"></div>
     </div>
     <div id="reset-container" class="modal-container">
-        <div id="pause-modal" class="modal">
+        <div id="pause-modal" class="modal--finish">
             <h2 id="modal--content"></h2>
             <button id="search-reset" class="search-btn btn--options"><i class="fas fa-search"></i></button>
             <button id="restart" class="btn--options">Restart <i class="fas fa-undo-alt"></i></button>
         </div>
     </div>
     <div id="search-container" class="modal-container">
-        <div class="modal">
-            <form id="search-form">
-                <input type="search" name="search" id="search">
-                <input type="submit" value="Search a movie">
-            </form>
-            <button id="close-modal" class="btn--options"> <i class="fas fa-times"></i> </button>
+        <div class="modal--search flex">
+            <div class="modal-header flex">
+                <form id="search-form">
+                    <input type="search" name="search" id="search">
+                    <button type="submit" class="btn--options" id="submit-search">Search</button>
+                </form>
+                <button id="close-modal" class="btn--options"> <i class="fas fa-times"></i> </button>
+            </div>
+            <div class="modal-content flex">
+
+            </div>
+            <div class="modal-footer flex">
+            </div>
         </div>
     </div>
     <div class="middle--row flex" id="game--container">
