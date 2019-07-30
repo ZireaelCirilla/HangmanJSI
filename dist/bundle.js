@@ -92,41 +92,91 @@ var guessArr = [{
   name: "El Rey Leon",
   clues: ["Live Action", "Hakuna-Matata"]
 }];
+const countDown = {
+  time: 0,
 
-const errorHandler = (counter, timer, clues) => {
-  var failCounter = counter();
-  var time = document.getElementById('timer').innerText; // let newTimer;
+  count() {
+    return this.time--;
+  },
 
-  switch (failCounter) {
+  printTime() {
+    document.querySelector('#timer').innerHTML = this.time;
+  },
+
+  setTime(newTime) {
+    this.time = newTime;
+  },
+
+  finish() {
+    interval.stop();
+    showModal();
+  }
+
+};
+
+const intAction = () => {
+  countDown.time <= 0 ? countDown.finish() : '';
+  countDown.printTime();
+  countDown.count();
+};
+
+const interval = {
+  init: setInterval(intAction, 1000),
+
+  stop() {
+    clearInterval(this.init);
+  },
+
+  reset() {
+    this.init = setInterval(intAction, 1000);
+  }
+
+};
+const fails = {
+  total: 0,
+
+  sum() {
+    this.total++;
+  }
+
+};
+const clues = {
+  firstClue: '',
+  secondClue: ''
+};
+
+const errorHandler = () => {
+  fails.sum();
+  let currentTime = countDown.time;
+
+  switch (fails.total) {
     case 1:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/head.png');
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/head.png');
       break;
 
     case 2:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/body.png');
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues(), "firstClue");
-      clearInterval(timer);
-      var secondTimer = startTimer(__WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["e" /* printTimer */], time - 5);
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/body.png');
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues.firstClue, Object.keys(clues)[0]);
+      countDown.time - 5 <= 0 ? countDown.finish(interval) : countDown.setTime(currentTime - 5);
       break;
 
     case 3:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/left-arm.png');
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/left-arm.png');
       break;
 
     case 4:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/right-arm.png');
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues(), "secondClue");
-      clearInterval(secondTimer);
-      var thirdtimer = startTimer(__WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["e" /* printTimer */], time - 5);
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/right-arm.png');
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues.secondClue, Object.keys(clues)[1]);
+      countDown.time - 5 <= 0 ? countDown.finish(interval) : countDown.setTime(currentTime - 5);
       break;
 
     case 5:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/left-leg.png');
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/left-leg.png');
       break;
 
     case 6:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/right-leg.png');
-      finishGame(thirdtimer);
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/right-leg.png');
+      countDown.finish(interval);
       break;
 
     default:
@@ -134,20 +184,12 @@ const errorHandler = (counter, timer, clues) => {
   }
 };
 
-function startTimer(callback, time) {
-  let i = time;
-  let timer = setInterval(() => {
-    callback(i);
-    i--;
-    i < 0 ? finishGame(timer) : '';
-  }, 1000);
-  return timer;
-}
-
 const restart = () => {
   document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('../../images/horca.png');
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/horca.png');
   hideModal();
+  fails.total = 0;
+  interval.reset();
   startGame();
 };
 
@@ -161,15 +203,10 @@ function hideModal() {
   document.getElementById('modal-container').style.display = 'none';
 }
 
-const finishGame = timer => {
-  clearInterval(timer);
-  showModal();
-};
-
-const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
+const checkBtn = (wordObj, e) => {
   let char = e.target.innerHTML;
   let letters = document.querySelectorAll('.letter');
-  let charIndexArr = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["c" /* getCharacterMatches */](wordObj.name, char);
+  let charIndexArr = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["a" /* getCharacterMatches */](wordObj.name, char);
   e.target.setAttribute('disabled', '');
 
   if (charIndexArr.length > 0) {
@@ -177,26 +214,28 @@ const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
       __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["b" /* printChar */](letters, char, index);
     });
   } else {
-    errorHandler(counter, timer, clues);
+    errorHandler();
   }
 
   var lettersGuessed = [];
   letters.forEach(char => char.textContent != '' ? lettersGuessed.push(char) : '');
 
   if (lettersGuessed.length == wordObj.name.replace(/\s/g, '').length) {
+    interval.stop();
     showModal('You guessed right!');
   }
 };
 
 function startGame() {
-  var wordObj = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["d" /* getGuessingWord */](guessArr);
+  var wordObj = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["b" /* getGuessingWord */](guessArr);
   var wordName = wordObj.name;
-  var counter = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["a" /* countFailures */]();
-  var clues = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["b" /* generateClue */](wordObj);
-  let timer = startTimer(__WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["e" /* printTimer */], 30);
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["f" /* renderButtons */]();
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["g" /* renderLetterContainers */](wordName);
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["a" /* addListenerButtons */](wordObj, counter, clues, btnClickedChecker, timer);
+  clues.firstClue = wordObj.clues[0];
+  clues.secondClue = wordObj.clues[1];
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["e" /* renderButtons */]();
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["f" /* renderLetterContainers */](wordName);
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["a" /* addListenerButtons */](wordObj, checkBtn);
+  countDown.setTime(50);
+  interval.init;
 }
 
 startGame();
@@ -217,23 +256,7 @@ const renderButtons = () => {
   let buttons = abc.map(letter => htmlButton(letter)).join('');
   document.querySelector('.keyboard--container').innerHTML = buttons;
 };
-/* harmony export (immutable) */ __webpack_exports__["f"] = renderButtons;
-
-const htmlLifeIcon = () => {
-  return '<div class="life"><i class="fas fa-heart"></i></div>';
-};
-/* unused harmony export htmlLifeIcon */
-
-const renderLifeIcons = NumOfLifes => {
-  let lifes = [];
-
-  for (let i = 0; i < NumOfLifes; i++) {
-    lifes.push(htmlLifeIcon());
-  }
-
-  return lifes.join('');
-};
-/* unused harmony export renderLifeIcons */
+/* harmony export (immutable) */ __webpack_exports__["e"] = renderButtons;
 
 const htmlLetterContainer = letter => {
   let space = '<div class="letter-container"></div>';
@@ -252,23 +275,18 @@ const renderLetterContainers = titleFilm => {
   let letters = titleArr.map(val => htmlLetterContainer(val)).join('');
   document.querySelector('.characters--container--fullword').innerHTML = letters;
 };
-/* harmony export (immutable) */ __webpack_exports__["g"] = renderLetterContainers;
+/* harmony export (immutable) */ __webpack_exports__["f"] = renderLetterContainers;
 
 function printClues(clue, id) {
   document.getElementById(id).innerHTML = clue;
 }
-const addListenerButtons = (word, counter, clues, callback, timer) => {
+const addListenerButtons = (word, callback) => {
   let arrBtn = document.querySelectorAll('.letter-btn');
   arrBtn.forEach(btn => btn.addEventListener('click', e => {
-    callback(word, counter, clues, e, timer);
+    callback(word, e);
   }));
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = addListenerButtons;
-
-const printTimer = time => {
-  document.querySelector('#timer').innerHTML = time;
-};
-/* harmony export (immutable) */ __webpack_exports__["e"] = printTimer;
 
 const printChar = (letters, char, index) => {
   letters[index].innerHTML = char;
@@ -286,10 +304,8 @@ const printImg = imgUrl => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["c"] = getCharacterMatches;
-/* harmony export (immutable) */ __webpack_exports__["d"] = getGuessingWord;
-/* harmony export (immutable) */ __webpack_exports__["b"] = generateClue;
-/* harmony export (immutable) */ __webpack_exports__["a"] = countFailures;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getCharacterMatches;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getGuessingWord;
 function getCharacterMatches(word, char) {
   word = word.replace(/\s/g, '');
   var indices = [];
@@ -303,22 +319,6 @@ function getCharacterMatches(word, char) {
 function getGuessingWord(arr) {
   var guessIndex = parseInt(Math.random() * arr.length);
   return arr[guessIndex];
-}
-function generateClue(wordObj) {
-  var clueCounter = 0;
-  return function () {
-    if (clueCounter <= wordObj.clues.length - 1) {
-      return wordObj.clues[clueCounter++];
-    } else {
-      return "No more clues :(";
-    }
-  };
-}
-function countFailures() {
-  var failures = 0;
-  return function () {
-    return failures += 1;
-  };
 }
 
 /***/ })

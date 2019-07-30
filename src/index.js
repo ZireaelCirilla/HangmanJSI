@@ -27,56 +27,90 @@ var guessArr = [{
 },
 ];
 
+const countDown = {
+    time: 0,
+    count(){
+        return this.time--;
+    },
+    printTime(){
+        document.querySelector('#timer').innerHTML = this.time;
+    },
+    setTime(newTime){
+        this.time = newTime;
+    },
+    finish(){
+        interval.stop();
+        showModal();
+    }
+}
 
-const errorHandler = (counter, timer, clues) => {
-    var failCounter = counter();
-    var time = document.getElementById('timer').innerText
-    // timer inicial ya ha sido cancelado
-    switch (failCounter) {
+const intAction = () => {
+        countDown.time <= 0 ? countDown.finish() : '';
+        countDown.printTime();
+        countDown.count();
+}
+
+const interval = {
+    init: setInterval(intAction,1000),
+    stop(){
+        clearInterval(this.init);
+    },
+    reset(){
+        this.init = setInterval(intAction, 1000);
+    }
+};
+
+const fails = {
+    total: 0,
+    sum(){
+        this.total++;
+    }
+}
+
+const clues = {
+    firstClue: '',
+    secondClue: ''
+}
+
+const errorHandler = () => {
+    fails.sum();
+    let currentTime = countDown.time;
+
+    switch (fails.total) {
         case 1:
-            DomLoader.printImg('../../images/head.png');
+            DomLoader.printImg('/images/head.png');
             break;
         case 2:
-            DomLoader.printImg('../../images/body.png');
-            DomLoader.printClues(clues(), "firstClue");
-            clearInterval(timer);
-            startTimer(DomLoader.printTimer, time - 5)
+            DomLoader.printImg('/images/body.png');
+            DomLoader.printClues(clues.firstClue, Object.keys(clues)[0]);
+            countDown.time - 5 <= 0 ? countDown.finish(interval) : countDown.setTime((currentTime - 5));
             break;
         case 3:
-            DomLoader.printImg('../../images/left-arm.png');
+            DomLoader.printImg('/images/left-arm.png');
             break;
         case 4:
-            DomLoader.printImg('../../images/right-arm.png');
-            DomLoader.printClues(clues(), "secondClue")
-            clearInterval(timer);
-            startTimer(DomLoader.printTimer, time - 5)
+            DomLoader.printImg('/images/right-arm.png');
+            DomLoader.printClues(clues.secondClue, Object.keys(clues)[1]);
+            countDown.time - 5 <= 0 ? countDown.finish(interval) : countDown.setTime((currentTime - 5));
             break;
         case 5:
-            DomLoader.printImg('../../images/left-leg.png');
+            DomLoader.printImg('/images/left-leg.png');
             break;
         case 6:
-            DomLoader.printImg('../../images/right-leg.png');
-            finishGame(timer);
+            DomLoader.printImg('/images/right-leg.png');
+            countDown.finish(interval);
             break;
         default:
             break;
     }
 }
 
-function startTimer(callback, time) {
-    let i = time;
-    let timer = setInterval(() => {
-        callback(i);
-        i--;
-        i < 0 ? finishGame(timer) : '';
-    }, 1000);
-    return timer;
-}
-
 const restart = () => {
     document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
-    DomLoader.printImg('../../images/horca.png');
+    DomLoader.printImg('/images/horca.png');
     hideModal();
+    fails.total = 0;
+    interval.reset();
     startGame();
 }
 
@@ -90,12 +124,7 @@ function hideModal() {
     document.getElementById('modal-container').style.display = 'none';
 }
 
-const finishGame = (timer) => {
-    clearInterval(timer);
-    showModal();
-}
-
-const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
+const checkBtn = (wordObj, e) => {
     let char = e.target.innerHTML;
     let letters = document.querySelectorAll('.letter');
     let charIndexArr = HangMan.getCharacterMatches(wordObj.name, char);
@@ -105,24 +134,26 @@ const btnClickedChecker = (wordObj, counter, clues, e, timer) => {
             DomLoader.printChar(letters, char, index);
         });
     } else {
-        errorHandler(counter, timer, clues);
+        errorHandler();
     }
     var lettersGuessed = [];
     letters.forEach(char => char.textContent != '' ? lettersGuessed.push(char) : '');
     if (lettersGuessed.length == wordObj.name.replace(/\s/g, '').length) {
-        showModal('You guessed right!')
+        interval.stop();
+        showModal('You guessed right!');
     }
 }
 
 function startGame() {
     var wordObj = HangMan.getGuessingWord(guessArr);
     var wordName = wordObj.name
-    var counter = HangMan.countFailures();
-    var clues = HangMan.generateClue(wordObj);
-    let timer = startTimer(DomLoader.printTimer, 30);
+    clues.firstClue = wordObj.clues[0];
+    clues.secondClue = wordObj.clues[1];
     DomLoader.renderButtons()
     DomLoader.renderLetterContainers(wordName);
-    DomLoader.addListenerButtons(wordObj, counter, clues, btnClickedChecker, timer);
+    DomLoader.addListenerButtons(wordObj, checkBtn);
+    countDown.setTime(50);
+    interval.init;
 }
 
 startGame();

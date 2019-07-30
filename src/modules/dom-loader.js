@@ -9,18 +9,6 @@ export const renderButtons = () => {
     document.querySelector('.keyboard--container').innerHTML = buttons;
 }
 
-export const htmlLifeIcon = () => {
-    return '<div class="life"><i class="fas fa-heart"></i></div>';
-}
-
-export const renderLifeIcons = (NumOfLifes) => {
-    let lifes = [];
-    for (let i = 0; i < NumOfLifes; i++) {
-        lifes.push(htmlLifeIcon());
-    }
-    return lifes.join('');
-}
-
 export const htmlLetterContainer = (letter) => {
     let space = '<div class="letter-container"></div>';
     let htmlLetter = (`
@@ -44,13 +32,9 @@ export function printClues(clue, id) {
     document.getElementById(id).innerHTML = clue
 }
 
-export const addListenerButtons = (word, counter, clues, callback, timer) => {
+export const addListenerButtons = (word, callback) => {
     let arrBtn = document.querySelectorAll('.letter-btn');
-    arrBtn.forEach(btn => btn.addEventListener('click', (e) => { callback(word, counter, clues, e, timer) }));
-}
-
-export const printTimer = (time) => {
-    document.querySelector('#timer').innerHTML = time; 
+    arrBtn.forEach(btn => btn.addEventListener('click', (e) => { callback(word, e) }));
 }
 
 export const printChar = (letters, char, index) => {
