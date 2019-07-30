@@ -70,3 +70,7 @@ export const clearGameInterface = () => {
     document.querySelectorAll('.clues').forEach(element => element.innerHTML = '');
     printImg('/images/horca.png');
 }
+
+export const inputPlaceHolder = (error) => {
+    document.getElementById('search').placeholder = error;
+}
