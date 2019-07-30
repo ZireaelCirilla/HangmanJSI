@@ -32,8 +32,8 @@ export function printClues(clue, id) {
     document.getElementById(id).innerHTML = clue
 }
 
-export const addListenerButtons = (word, callback) => {
-    let arrBtn = document.querySelectorAll('.letter-btn');
+export const addListenerButtons = (word, classBtn, callback) => {
+    let arrBtn = document.querySelectorAll(classBtn);
     arrBtn.forEach(btn => btn.addEventListener('click', (e) => { callback(word, e) }));
 }
 

@@ -14,14 +14,25 @@
 
 <body>
     <div class="top--row">
+        <button class="search-btn btn--options"><i class="fas fa-search"></i></button>
         <p class="title">Hang-Man!
         </p>
         <div id="timer"></div>
     </div>
-    <div id="modal-container">
-        <div id="pause-modal">
+    <div id="reset-container" class="modal-container">
+        <div id="pause-modal" class="modal">
             <h2 id="modal--content"></h2>
-            <button id="restart">Restart</button>
+            <button id="search-reset" class="search-btn btn--options"><i class="fas fa-search"></i></button>
+            <button id="restart" class="btn--options">Restart <i class="fas fa-undo-alt"></i></button>
+        </div>
+    </div>
+    <div id="search-container" class="modal-container">
+        <div class="modal">
+            <form id="search-form">
+                <input type="search" name="search" id="search">
+                <input type="submit" value="Search a movie">
+            </form>
+            <button id="close-modal" class="btn--options"> <i class="fas fa-times"></i> </button>
         </div>
     </div>
     <div class="middle--row flex" id="game--container">

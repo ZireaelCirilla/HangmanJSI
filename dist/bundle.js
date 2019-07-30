@@ -109,7 +109,7 @@ const countDown = {
 
   finish() {
     interval.stop();
-    showModal();
+    showModalReset();
   }
 
 };
@@ -179,15 +179,26 @@ const restart = () => {
   startGame();
 };
 
-function showModal(title = "Game Over") {
-  document.getElementById('modal-container').style.display = 'block';
+function showModalReset(title = "Game Over") {
+  hideModal();
+  document.getElementById('reset-container').style.display = 'block';
   document.getElementById('modal--content').innerHTML = title;
   document.getElementById('restart').addEventListener('click', restart);
+  document.getElementById('search-reset').addEventListener('click', () => {
+    restart();
+    showModalSearch();
+  });
 }
 
 function hideModal() {
-  document.getElementById('modal-container').style.display = 'none';
+  let containers = document.querySelectorAll('.modal-container');
+  containers.forEach(element => element.style.display = 'none');
 }
+
+const showModalSearch = () => {
+  hideModal();
+  document.getElementById('search-container').style.display = 'block';
+};
 
 const checkBtn = (wordObj, e) => {
   let char = e.target.innerHTML;
@@ -211,7 +222,7 @@ function wordGuessed(name) {
 
   if (lettersGuessed.length == name.replace(/\s/g, '').length) {
     interval.stop();
-    showModal('You guessed right!');
+    showModalReset('You guessed right!');
   }
 }
 
@@ -222,12 +233,14 @@ function startGame() {
   clues.secondClue = wordObj.clues[1];
   __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["f" /* renderButtons */]();
   __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["g" /* renderLetterContainers */](wordName);
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["a" /* addListenerButtons */](wordObj, checkBtn);
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["a" /* addListenerButtons */](wordObj, '.letter-btn', checkBtn);
   countDown.setTime(50);
   interval.init;
 }
 
 startGame();
+__WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["a" /* addListenerButtons */](undefined, '.search-btn', showModalSearch);
+document.getElementById('close-modal').addEventListener('click', hideModal);
 
 /***/ }),
 /* 1 */
@@ -269,8 +282,8 @@ const renderLetterContainers = titleFilm => {
 function printClues(clue, id) {
   document.getElementById(id).innerHTML = clue;
 }
-const addListenerButtons = (word, callback) => {
-  let arrBtn = document.querySelectorAll('.letter-btn');
+const addListenerButtons = (word, classBtn, callback) => {
+  let arrBtn = document.querySelectorAll(classBtn);
   arrBtn.forEach(btn => btn.addEventListener('click', e => {
     callback(word, e);
   }));

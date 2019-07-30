@@ -40,7 +40,7 @@ const countDown = {
     },
     finish() {
         interval.stop();
-        showModal();
+        showModalReset();
     }
 }
 
@@ -102,14 +102,25 @@ const restart = () => {
     startGame();
 }
 
-function showModal(title = "Game Over") {
-    document.getElementById('modal-container').style.display = 'block';
+function showModalReset(title = "Game Over") {
+    hideModal();
+    document.getElementById('reset-container').style.display = 'block';
     document.getElementById('modal--content').innerHTML = title;
     document.getElementById('restart').addEventListener('click', restart);
+    document.getElementById('search-reset').addEventListener('click', () => {
+        restart();
+        showModalSearch();
+    });
 }
 
 function hideModal() {
-    document.getElementById('modal-container').style.display = 'none';
+    let containers = document.querySelectorAll('.modal-container');
+    containers.forEach(element => element.style.display = 'none');
+}
+
+const showModalSearch = () => {
+    hideModal();
+    document.getElementById('search-container').style.display = 'block';
 }
 
 const checkBtn = (wordObj, e) => {
@@ -132,7 +143,7 @@ function wordGuessed(name) {
     letters.forEach(char => char.textContent != '' ? lettersGuessed.push(char) : '');
     if (lettersGuessed.length == name.replace(/\s/g, '').length) {
         interval.stop();
-        showModal('You guessed right!');
+        showModalReset('You guessed right!');
     }
 }
 
@@ -143,9 +154,12 @@ function startGame() {
     clues.secondClue = wordObj.clues[1];
     DomLoader.renderButtons()
     DomLoader.renderLetterContainers(wordName);
-    DomLoader.addListenerButtons(wordObj, checkBtn);
+    DomLoader.addListenerButtons(wordObj, '.letter-btn',checkBtn);
     countDown.setTime(50);
     interval.init;
 }
 
 startGame();
+
+DomLoader.addListenerButtons(undefined, '.search-btn', showModalSearch);
+document.getElementById('close-modal').addEventListener('click', hideModal);
