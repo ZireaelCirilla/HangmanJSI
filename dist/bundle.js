@@ -191,34 +191,37 @@ function hideModal() {
 
 const checkBtn = (wordObj, e) => {
   let char = e.target.innerHTML;
-  let letters = document.querySelectorAll('.letter');
   let charIndexArr = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["a" /* getCharacterMatches */](wordObj.name, char);
   e.target.setAttribute('disabled', '');
 
   if (charIndexArr.length > 0) {
     charIndexArr.forEach(index => {
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["b" /* printChar */](letters, char, index);
+      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["b" /* printChar */](char, index);
+      wordGuessed(wordObj.name);
     });
   } else {
     errorHandler();
   }
+};
 
+function wordGuessed(name) {
+  var letters = __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["e" /* queryLetter */]();
   var lettersGuessed = [];
   letters.forEach(char => char.textContent != '' ? lettersGuessed.push(char) : '');
 
-  if (lettersGuessed.length == wordObj.name.replace(/\s/g, '').length) {
+  if (lettersGuessed.length == name.replace(/\s/g, '').length) {
     interval.stop();
     showModal('You guessed right!');
   }
-};
+}
 
 function startGame() {
   var wordObj = __WEBPACK_IMPORTED_MODULE_1__modules_hangman__["b" /* getGuessingWord */](guessArr);
   var wordName = wordObj.name;
   clues.firstClue = wordObj.clues[0];
   clues.secondClue = wordObj.clues[1];
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["e" /* renderButtons */]();
-  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["f" /* renderLetterContainers */](wordName);
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["f" /* renderButtons */]();
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["g" /* renderLetterContainers */](wordName);
   __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["a" /* addListenerButtons */](wordObj, checkBtn);
   countDown.setTime(50);
   interval.init;
@@ -242,7 +245,7 @@ const renderButtons = () => {
   let buttons = abc.map(letter => htmlButton(letter)).join('');
   document.querySelector('.keyboard--container').innerHTML = buttons;
 };
-/* harmony export (immutable) */ __webpack_exports__["e"] = renderButtons;
+/* harmony export (immutable) */ __webpack_exports__["f"] = renderButtons;
 
 const htmlLetterContainer = letter => {
   let space = '<div class="letter-container"></div>';
@@ -261,7 +264,7 @@ const renderLetterContainers = titleFilm => {
   let letters = titleArr.map(val => htmlLetterContainer(val)).join('');
   document.querySelector('.characters--container--fullword').innerHTML = letters;
 };
-/* harmony export (immutable) */ __webpack_exports__["f"] = renderLetterContainers;
+/* harmony export (immutable) */ __webpack_exports__["g"] = renderLetterContainers;
 
 function printClues(clue, id) {
   document.getElementById(id).innerHTML = clue;
@@ -274,7 +277,8 @@ const addListenerButtons = (word, callback) => {
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = addListenerButtons;
 
-const printChar = (letters, char, index) => {
+const printChar = (char, index) => {
+  var letters = queryLetter();
   letters[index].innerHTML = char;
 };
 /* harmony export (immutable) */ __webpack_exports__["b"] = printChar;
@@ -283,6 +287,11 @@ const printImg = imgUrl => {
   document.getElementById('hangman-img').style.backgroundImage = `url(${imgUrl})`;
 };
 /* harmony export (immutable) */ __webpack_exports__["d"] = printImg;
+
+const queryLetter = () => {
+  return document.querySelectorAll('.letter');
+};
+/* harmony export (immutable) */ __webpack_exports__["e"] = queryLetter;
 
 
 /***/ }),

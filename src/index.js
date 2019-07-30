@@ -114,19 +114,23 @@ function hideModal() {
 
 const checkBtn = (wordObj, e) => {
     let char = e.target.innerHTML;
-    let letters = document.querySelectorAll('.letter');
     let charIndexArr = HangMan.getCharacterMatches(wordObj.name, char);
     e.target.setAttribute('disabled', '');
     if (charIndexArr.length > 0) {
         charIndexArr.forEach(index => {
-            DomLoader.printChar(letters, char, index);
+            DomLoader.printChar(char, index);
+            wordGuessed(wordObj.name);
         });
     } else {
         errorHandler();
     }
+}
+
+function wordGuessed(name) {
+    var letters = DomLoader.queryLetter()
     var lettersGuessed = [];
     letters.forEach(char => char.textContent != '' ? lettersGuessed.push(char) : '');
-    if (lettersGuessed.length == wordObj.name.replace(/\s/g, '').length) {
+    if (lettersGuessed.length == name.replace(/\s/g, '').length) {
         interval.stop();
         showModal('You guessed right!');
     }

@@ -37,10 +37,15 @@ export const addListenerButtons = (word, callback) => {
     arrBtn.forEach(btn => btn.addEventListener('click', (e) => { callback(word, e) }));
 }
 
-export const printChar = (letters, char, index) => {
-        letters[index].innerHTML = char;
+export const printChar = (char, index) => {
+    var letters = queryLetter();
+    letters[index].innerHTML = char;
 }
 
 export const printImg = (imgUrl) => {
-    document.getElementById('hangman-img').style.backgroundImage = `url(${imgUrl})`; 
+    document.getElementById('hangman-img').style.backgroundImage = `url(${imgUrl})`;
+}
+
+export const queryLetter = () => {
+    return document.querySelectorAll('.letter');
 }
