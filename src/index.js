@@ -29,40 +29,40 @@ var guessArr = [{
 
 const countDown = {
     time: 0,
-    count(){
+    count() {
         return this.time--;
     },
-    printTime(){
+    printTime() {
         document.querySelector('#timer').innerHTML = this.time;
     },
-    setTime(newTime){
+    setTime(newTime) {
         this.time = newTime;
     },
-    finish(){
+    finish() {
         interval.stop();
         showModal();
     }
 }
 
 const intAction = () => {
-        countDown.time <= 0 ? countDown.finish() : '';
-        countDown.printTime();
-        countDown.count();
+    countDown.time <= 0 ? countDown.finish() : '';
+    countDown.printTime();
+    countDown.count();
 }
 
 const interval = {
-    init: setInterval(intAction,1000),
-    stop(){
+    init: setInterval(intAction, 1000),
+    stop() {
         clearInterval(this.init);
     },
-    reset(){
+    reset() {
         this.init = setInterval(intAction, 1000);
     }
 };
 
 const fails = {
     total: 0,
-    sum(){
+    sum() {
         this.total++;
     }
 }
@@ -75,29 +75,17 @@ const clues = {
 const errorHandler = () => {
     fails.sum();
     let currentTime = countDown.time;
-
+    DomLoader.printImg(`/images/${fails.total}.png`);
     switch (fails.total) {
-        case 1:
-            DomLoader.printImg('/images/head.png');
-            break;
         case 2:
-            DomLoader.printImg('/images/body.png');
             DomLoader.printClues(clues.firstClue, Object.keys(clues)[0]);
             countDown.time - 5 <= 0 ? countDown.finish(interval) : countDown.setTime((currentTime - 5));
             break;
-        case 3:
-            DomLoader.printImg('/images/left-arm.png');
-            break;
         case 4:
-            DomLoader.printImg('/images/right-arm.png');
             DomLoader.printClues(clues.secondClue, Object.keys(clues)[1]);
             countDown.time - 5 <= 0 ? countDown.finish(interval) : countDown.setTime((currentTime - 5));
             break;
-        case 5:
-            DomLoader.printImg('/images/left-leg.png');
-            break;
         case 6:
-            DomLoader.printImg('/images/right-leg.png');
             countDown.finish(interval);
             break;
         default:

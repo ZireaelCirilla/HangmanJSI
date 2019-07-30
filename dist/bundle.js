@@ -148,34 +148,20 @@ const clues = {
 const errorHandler = () => {
   fails.sum();
   let currentTime = countDown.time;
+  __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */](`/images/${fails.total}.png`);
 
   switch (fails.total) {
-    case 1:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/head.png');
-      break;
-
     case 2:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/body.png');
       __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues.firstClue, Object.keys(clues)[0]);
       countDown.time - 5 <= 0 ? countDown.finish(interval) : countDown.setTime(currentTime - 5);
       break;
 
-    case 3:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/left-arm.png');
-      break;
-
     case 4:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/right-arm.png');
       __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["c" /* printClues */](clues.secondClue, Object.keys(clues)[1]);
       countDown.time - 5 <= 0 ? countDown.finish(interval) : countDown.setTime(currentTime - 5);
       break;
 
-    case 5:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/left-leg.png');
-      break;
-
     case 6:
-      __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/right-leg.png');
       countDown.finish(interval);
       break;
 
