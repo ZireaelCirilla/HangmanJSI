@@ -71,6 +71,8 @@
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_hangman__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_request_service__ = __webpack_require__(3);
+
 
 
 var guessArr = [{
@@ -242,6 +244,11 @@ function startGame() {
 startGame();
 __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["a" /* addListenerButtons */](undefined, '.search-btn', showModalSearch);
 document.getElementById('close-modal').addEventListener('click', hideModal);
+document.getElementById('search-form').addEventListener('submit', e => {
+  e.preventDefault();
+  console.log(e);
+  console.log(Request.fetchFilms('tom'));
+});
 
 /***/ }),
 /* 1 */
@@ -329,6 +336,23 @@ function getGuessingWord(arr) {
   var guessIndex = parseInt(Math.random() * arr.length);
   return arr[guessIndex];
 }
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const fetchFilms = search => {
+  let films;
+
+  async () => {
+    films = await fetch(`http://www.omdbapi.com/?s=${search}&apikey=9ee21907`).then(req => req.json());
+  };
+
+  return films;
+};
+/* unused harmony export fetchFilms */
+
 
 /***/ })
 /******/ ]);

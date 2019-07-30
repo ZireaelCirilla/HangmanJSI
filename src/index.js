@@ -1,5 +1,6 @@
 import * as DomLoader from './modules/dom-loader';
 import * as HangMan from './modules/hangman';
+import * as Request from './modules/request-service';
 
 
 var guessArr = [{
@@ -164,3 +165,4 @@ startGame();
 
 DomLoader.addListenerButtons(undefined, '.search-btn', showModalSearch);
 document.getElementById('close-modal').addEventListener('click', hideModal);
+document.getElementById('search-form').addEventListener('submit', Request.getFilmsArray);
