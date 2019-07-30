@@ -98,6 +98,7 @@ const restart = () => {
     DomLoader.printImg('/images/horca.png');
     hideModal();
     fails.total = 0;
+    interval.stop();
     interval.reset();
     startGame();
 }
