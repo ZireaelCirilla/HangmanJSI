@@ -175,6 +175,7 @@ const restart = () => {
   __WEBPACK_IMPORTED_MODULE_0__modules_dom_loader__["d" /* printImg */]('/images/horca.png');
   hideModal();
   fails.total = 0;
+  interval.stop();
   interval.reset();
   startGame();
 };
