@@ -10,10 +10,8 @@ export const fetchId = async (id) => {
         .catch(e => console.error('Error: ' + e));
 }
 
-export const getFilmsArray = async (e) => {
-    e.preventDefault();
-    let movieSearch = e.target[0].value;
-    let response = await fetchFilms(movieSearch);
+export const getFilmsArray = async (movie) => {
+    let response = await fetchFilms(movie);
     let films = response.Search.filter((val, i) => i < 5);
     console.log(films);
     return films;

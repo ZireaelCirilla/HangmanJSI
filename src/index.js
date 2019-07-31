@@ -40,21 +40,19 @@ const checkBtn = (wordObj, e) => {
     if (charIndexArr.length > 0) {
         charIndexArr.forEach(index => {
             DomLoader.printChar(char, index);
-            wordGuessed(wordObj.name);
+            HangMan.wordGuessed(wordObj.name);
         });
     } else {
         errorHandler();
     }
 }
 
-function wordGuessed(name) {
-    var letters = DomLoader.queryLetter()
-    var lettersGuessed = [];
-    letters.forEach(char => char.textContent != '' ? lettersGuessed.push(char) : '');
-    if (lettersGuessed.length == name.replace(/\s/g, '').length) {
-        GlobalVar.interval.stop();
-        DomLoader.showModalReset('You guessed right!');
-    }
+function searchFilm(e) {
+    e.preventDefault();
+    var movieSearch = e.target[0].value;
+    var films = Request.getFilmsArray(movieSearch);
+    console.log(films);
+    console.log("test")
 }
 
 function startGame() {
@@ -73,7 +71,7 @@ startGame();
 
 DomLoader.addListenerButtons(undefined, '.search-btn', DomLoader.showModalSearch);
 document.getElementById('close-modal').addEventListener('click', DomLoader.hideModal);
-document.getElementById('search-form').addEventListener('submit', Request.getFilmsArray);
+document.getElementById('search-form').addEventListener('submit', searchFilm);
 document.getElementById('restart').addEventListener('click', restart);
 document.getElementById('search-reset').addEventListener('click', () => {
     restart();
