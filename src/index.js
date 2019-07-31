@@ -58,6 +58,7 @@ async function searchFilm(e) {
     e.preventDefault();
     var movieSearch = e.target[0].value;
     var films = await Request.getFilmsArray(movieSearch);
+    DomLoader.displayMoviesOnModal(films);
     console.log(films);
 }
 

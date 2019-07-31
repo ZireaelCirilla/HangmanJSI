@@ -74,3 +74,18 @@ export const clearGameInterface = () => {
 export const inputPlaceHolder = (error) => {
     document.getElementById('search').placeholder = error;
 }
+
+export const displayMoviesOnModal = (moviesArr) => {
+    moviesArr.forEach(function (movie, index) {
+        if (index == 0) {
+            document.getElementById("modal-content--title").innerHTML = movie.Title;
+            document.getElementById("modal-content--desc").innerHTML = movie.Year;
+            document.getElementById("modal-content--image").style.backgroundImage = `url(${movie.Poster})`;
+            document.getElementsByClassName("modal-content")[index].setAttribute("film-id", movie.imdbID);
+        } else {
+            document.getElementsByClassName("modal-footer--optional--image")[index - 1].style.backgroundImage = `url(${movie.Poster})`;
+            document.getElementsByClassName("modal-footer--optional--title")[index - 1].innerHTML = movie.Title;
+            document.getElementsByClassName("modal-footer--optional")[index - 1].setAttribute("film-id", movie.imdbID);
+        }
+    });
+}

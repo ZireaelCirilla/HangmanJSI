@@ -133,7 +133,7 @@ body {
     flex-basis: 50%;
 }
 
-.modal-content--image {
+#modal-content--image {
     border-radius: 5px;
     background-image: url('https://www.slantmagazine.com/wp-content/uploads/2018/05/terminal.jpg');
     background-size: cover;
