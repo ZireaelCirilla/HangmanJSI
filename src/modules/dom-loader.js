@@ -76,6 +76,9 @@ export const inputPlaceHolder = (error) => {
 }
 
 export const displayMoviesOnModal = (moviesArr) => {
+    document.querySelector('.modal--search').style.height = '50%';
+    document.querySelector('.modal-content').style.display = 'flex';
+    document.querySelector('.modal-footer').style.display = 'flex';
     moviesArr.forEach(function (movie, index) {
         if (index == 0) {
             document.getElementById("modal-content--title").innerHTML = movie.Title;
@@ -88,4 +91,8 @@ export const displayMoviesOnModal = (moviesArr) => {
             document.getElementsByClassName("modal-footer--optional")[index - 1].setAttribute("film-id", movie.imdbID);
         }
     });
+}
+
+export const filmsToPick = () => {
+    return document.querySelectorAll('.film');
 }

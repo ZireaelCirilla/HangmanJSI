@@ -51,7 +51,7 @@ const setFilmToPLay = async (id) => {
     let film = await Request.getFilmById(id);
     GlobalVar.filmOnGame.title = film.Title;
     GlobalVar.filmOnGame.clues = [film.Actors.split(',')[0], film.Actors.split(',')[1]];
-    startGame();
+    restart();
 }
 
 async function searchFilm(e) {
@@ -59,7 +59,6 @@ async function searchFilm(e) {
     var movieSearch = e.target[0].value;
     var films = await Request.getFilmsArray(movieSearch);
     DomLoader.displayMoviesOnModal(films);
-    console.log(films);
 }
 
 function startGame() {
@@ -71,16 +70,18 @@ function startGame() {
     DomLoader.renderLetterContainers(wordName);
     DomLoader.addListenerButtons(wordObj, '.letter-btn', checkBtn);
     GlobalVar.countDown.setTime(50);
-    GlobalVar.interval.init;
+    GlobalVar.interval.stop();
+    GlobalVar.interval.reset();
 }
-
-// startGame();
 
 DomLoader.addListenerButtons(undefined, '.search-btn', DomLoader.showModalSearch);
 document.getElementById('close-modal').addEventListener('click', DomLoader.hideModal);
 document.getElementById('search-form').addEventListener('submit', searchFilm);
 document.getElementById('restart').addEventListener('click', restart);
-document.getElementById('search-reset').addEventListener('click', () => {
-    restart();
-    DomLoader.showModalSearch();
+document.querySelectorAll('.film').forEach(film => {
+    film.addEventListener('click', function(){
+        DomLoader.hideModal();
+        setFilmToPLay(this.getAttribute('film-id'));
+    });
 });
+document.onload = DomLoader.showModalSearch();

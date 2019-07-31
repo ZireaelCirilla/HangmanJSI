@@ -54,7 +54,7 @@ export const intAction = () => {
 }
 
 export const interval = {
-    init: setInterval(intAction, 1000),
+    init: '',
     stop() {
         clearInterval(this.init);
     },

@@ -1,6 +1,6 @@
 import { inputPlaceHolder } from '../modules/dom-loader'
 
-export const fetchFilms = async (search) => {
+export const fetchFilms = async (search = 'Tom') => {
     return await fetch(`http://www.omdbapi.com/?type=movie&s=${search}&apikey=9ee21907`)
         .then(res => res.json())
         .catch(e => console.error('Error: ' + e));
