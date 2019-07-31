@@ -211,6 +211,7 @@ body {
 .characters--container--fullword {
     flex-basis: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-content: center;
 }
