@@ -47,10 +47,11 @@ const checkBtn = (wordObj, e) => {
     }
 }
 
-function searchFilm(e) {
+async function searchFilm(e) {
     e.preventDefault();
     var movieSearch = e.target[0].value;
-    var films = Request.getFilmsArray(movieSearch);
+    var films = await Request.getFilmsArray(movieSearch);
+    DomLoader.displayMoviesOnModal(films);
     console.log(films);
     console.log("test")
 }
