@@ -35,29 +35,35 @@ const restart = () => {
 
 const checkBtn = (wordObj, e) => {
     let char = e.target.innerHTML;
-    let charIndexArr = HangMan.getCharacterMatches(wordObj.name, char);
+    let charIndexArr = HangMan.getCharacterMatches(wordObj.title, char);
     e.target.setAttribute('disabled', '');
     if (charIndexArr.length > 0) {
         charIndexArr.forEach(index => {
             DomLoader.printChar(char, index);
-            HangMan.wordGuessed(wordObj.name);
+            HangMan.wordGuessed(wordObj.title);
         });
     } else {
         errorHandler();
     }
 }
 
-function searchFilm(e) {
+const setFilmToPLay = async (id) => {
+    let film = await Request.getFilmById(id);
+    GlobalVar.filmOnGame.title = film.Title;
+    GlobalVar.filmOnGame.clues = [film.Actors.split(',')[0], film.Actors.split(',')[1]];
+    startGame();
+}
+
+async function searchFilm(e) {
     e.preventDefault();
     var movieSearch = e.target[0].value;
-    var films = Request.getFilmsArray(movieSearch);
+    var films = await Request.getFilmsArray(movieSearch);
     console.log(films);
-    console.log("test")
 }
 
 function startGame() {
-    var wordObj = HangMan.getGuessingWord(GlobalVar.guessArr);
-    var wordName = wordObj.name
+    var wordObj = GlobalVar.filmOnGame;
+    var wordName = wordObj.title;
     GlobalVar.clues.firstClue = wordObj.clues[0];
     GlobalVar.clues.secondClue = wordObj.clues[1];
     DomLoader.renderButtons()
@@ -67,7 +73,7 @@ function startGame() {
     GlobalVar.interval.init;
 }
 
-startGame();
+// startGame();
 
 DomLoader.addListenerButtons(undefined, '.search-btn', DomLoader.showModalSearch);
 document.getElementById('close-modal').addEventListener('click', DomLoader.hideModal);

@@ -7,7 +7,7 @@ export const fetchFilms = async (search) => {
 }
 
 export const fetchId = async (id) => {
-    return await fetch(`http://www.omdbapi.com/?i=${id}&plot=full&apikey=9ee21907`)
+    return await fetch(`http://www.omdbapi.com/?i=${id}&plot=short&apikey=9ee21907`)
         .then(res => res.json())
         .catch(e => console.error('Error: ' + e));
 }
@@ -19,7 +19,6 @@ export const getFilmsArray = async (movie) => {
         console.log(response.Error);
     } else if (response.Search) {
         let films = response.Search.filter((val, i) => i < 5);
-        console.log(films);
         return films;
     }
 }

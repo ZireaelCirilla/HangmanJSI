@@ -25,6 +25,11 @@ export var guessArr = [{
 },
 ];
 
+export const filmOnGame = {
+    title: '',
+    clues: []
+}
+
 export const countDown = {
     time: 0,
     count() {
