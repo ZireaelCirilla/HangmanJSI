@@ -1,3 +1,5 @@
+import { inputPlaceHolder } from '../modules/dom-loader'
+
 export const fetchFilms = async (search) => {
     return await fetch(`http://www.omdbapi.com/?type=movie&s=${search}&apikey=9ee21907`)
         .then(res => res.json())
@@ -11,10 +13,15 @@ export const fetchId = async (id) => {
 }
 
 export const getFilmsArray = async (movie) => {
-    let response = await fetchFilms(movie);
-    let films = response.Search.filter((val, i) => i < 5);
-    console.log(films);
-    return films;
+    let response = {};
+    movie == '' ? inputPlaceHolder('Need to write something...') : response = await fetchFilms(movie);
+    if (response.Error) {
+        console.log(response.Error);
+    } else if (response.Search) {
+        let films = response.Search.filter((val, i) => i < 5);
+        console.log(films);
+        return films;
+    }
 }
 
 export const getFilmById = async (id) => {
