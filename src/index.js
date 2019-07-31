@@ -49,7 +49,7 @@ const checkBtn = (wordObj, e) => {
 
 const setFilmToPLay = async (id) => {
     let film = await Request.getFilmById(id);
-    GlobalVar.filmOnGame.title = film.Title;
+    GlobalVar.filmOnGame.title = film.Title.replace(/[^A-Za-z0-9]\s/g, ' ');
     GlobalVar.filmOnGame.clues = [film.Actors.split(',')[0], film.Actors.split(',')[1]];
     restart();
 }
