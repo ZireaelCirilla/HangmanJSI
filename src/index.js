@@ -79,7 +79,7 @@ document.getElementById('close-modal').addEventListener('click', DomLoader.hideM
 document.getElementById('search-form').addEventListener('submit', searchFilm);
 document.getElementById('restart').addEventListener('click', restart);
 document.querySelectorAll('.film').forEach(film => {
-    film.addEventListener('click', function(){
+    film.addEventListener('click', function () {
         DomLoader.hideModal();
         setFilmToPLay(this.getAttribute('film-id'));
     });
