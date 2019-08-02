@@ -1,30 +1,5 @@
 import { showModalReset } from '../modules/dom-loader'
 
-export var guessArr = [{
-    name: "Los Vengadores",
-    clues: ["Son un equipo", "Protejen la tierra"]
-}, {
-    name: "Iron Man",
-    clues: ["Es rojo", "Parece hecho de oro"]
-},
-{
-    name: "Sully",
-    clues: ["Hudson", "My Aircraft"]
-},
-{
-    name: "DeadPool",
-    clues: ["Piscina", "Roja"]
-},
-{
-    name: "Terminal",
-    clues: ["Deseo de un padre", "Hijo ejemplar"]
-},
-{
-    name: "El Rey Leon",
-    clues: ["Live Action", "Hakuna-Matata"]
-},
-];
-
 export const filmOnGame = {
     title: '',
     clues: []
