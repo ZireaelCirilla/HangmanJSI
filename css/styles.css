@@ -38,6 +38,12 @@ body {
     flex-basis: 100%;
     text-align: center;
 }
+
+#modal--content {
+    flex-basis: 100%;
+    text-align: center;
+}
+
 .modal--search .modal-content, .modal--search .modal-footer {
     display: none;
 }
@@ -47,7 +53,7 @@ body {
     border-radius: 10px;
 }
 
-#reset-container, #search-container {
+#reset-container, #search-container, #history-container {
     display: none;
     position: absolute;
     width: 100vw;
@@ -294,4 +300,53 @@ body {
     width: 100%;
     border-radius: 15px;
     background-color: black;
+}
+
+#pause-modal {
+    justify-content: center;
+}
+
+#history {
+    margin: 0%;
+    margin-left: 5px;
+}
+
+.modal--history {
+    width: 50%;
+    height: auto;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    border: 3px solid black;
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    z-index: 100;
+}
+
+#close-modal-history {
+    margin: 0%;
+    margin-left: auto;
+}
+
+#history--top--row {
+    flex-basis: 100%;
+}
+
+.fb-100 {
+    flex-basis: 100%;
+}
+
+.fb-50 {
+    flex-basis: 50%;
+}
+
+.game-played-item {
+    margin-bottom: 5px;
+}
+
+#close-modal-history-container {
+    justify-content: end;
 }

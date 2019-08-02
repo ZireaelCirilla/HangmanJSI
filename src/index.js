@@ -58,7 +58,21 @@ async function searchFilm(e) {
     e.preventDefault();
     var movieSearch = e.target[0].value;
     var films = await Request.getFilmsArray(movieSearch);
-    DomLoader.displayMoviesOnModal(films);
+    if (Array.isArray(films)) {
+        DomLoader.displayMoviesOnModal(films);
+    } else {
+
+    }
+}
+
+async function getFilmsGuessed() {
+    await Request.getMoviesGuessed().then(res => {
+        return res.json()
+    }).then(data => {
+        DomLoader.renderGameHistory(data);
+        document.getElementById('history-container').style.display = "block";
+        document.getElementById('close-modal-history').addEventListener('click', DomLoader.hideModal);
+    }).catch(e => console.error('Error: ' + e));
 }
 
 function startGame() {
@@ -74,10 +88,12 @@ function startGame() {
     GlobalVar.interval.reset();
 }
 
+
 DomLoader.addListenerButtons(undefined, '.search-btn', DomLoader.showModalSearch);
 document.getElementById('close-modal').addEventListener('click', DomLoader.hideModal);
 document.getElementById('search-form').addEventListener('submit', searchFilm);
 document.getElementById('restart').addEventListener('click', restart);
+document.getElementById('history').addEventListener('click', getFilmsGuessed);
 document.querySelectorAll('.film').forEach(film => {
     film.addEventListener('click', function () {
         DomLoader.hideModal();

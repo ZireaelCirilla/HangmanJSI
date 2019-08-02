@@ -96,3 +96,15 @@ export const displayMoviesOnModal = (moviesArr) => {
 export const filmsToPick = () => {
     return document.querySelectorAll('.film');
 }
+
+export const renderGameHistory = (listArr) => {
+    document.getElementsByClassName("modal--history--content")[0].innerHTML = ""
+    listArr.forEach(element => {
+        document.getElementsByClassName("modal--history--content")[0].innerHTML += `
+            <div class="fb-100 game-played-item">
+                <p>${element.title}</p>
+                <p>Lives left: ${element.lives}</p>
+                <p>Time left: ${element.time}</p>
+            </div>`
+    })
+}

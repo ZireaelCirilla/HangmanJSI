@@ -15,12 +15,13 @@
 <body>
     <div class="top--row">
         <button id="home-search" class="search-btn btn--options"><i class="fas fa-search"></i></button>
+        <button id="history" class="btn--options"><i class="fas fa-list"></i></button>
         <p class="title">Hang-Man!
         </p>
         <div id="timer"></div>
     </div>
     <div id="reset-container" class="modal-container">
-        <div id="pause-modal" class="modal--finish">
+        <div id="pause-modal flex" class="modal--finish">
             <h2 id="modal--content"></h2>
             <button id="search-reset" class="search-btn btn--options"><i class="fas fa-search"></i></button>
             <button id="restart" class="btn--options">Restart <i class="fas fa-undo-alt"></i></button>
@@ -62,6 +63,19 @@
                     <div class="modal-footer--optional--title"></div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="history-container" class="modal-container">
+        <div class="modal--history flex">
+            <div id="history--top--row" class="flex">
+                <div class="fb-50">
+                    <b>Game History</b>
+                </div>
+                <div class="fb-50 flex" id="close-modal-history-container">
+                    <button id="close-modal-history" class="btn--options"> <i class="fas fa-times"></i> </button>
+                </div>
+            </div>
+            <div class="modal--history--content"></div>
         </div>
     </div>
     <div class="middle--row flex" id="game--container">

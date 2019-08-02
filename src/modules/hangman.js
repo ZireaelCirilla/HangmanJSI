@@ -1,5 +1,7 @@
 import * as GlobalVar from '../services/global-var-service';
 import * as DomLoader from '../modules/dom-loader';
+import { postMovieGuessed } from '../services/request-service';
+import { Global } from '@jest/types';
 
 export function getCharacterMatches(word, char) {
     word = word.replace(/\s/g, '');
@@ -22,5 +24,6 @@ export function wordGuessed(name) {
     if (lettersGuessed.length == name.replace(/\s/g, '').length) {
         GlobalVar.interval.stop();
         DomLoader.showModalReset('You guessed right!');
+        postMovieGuessed(name, GlobalVar.fails.total, GlobalVar.countDown.time);
     }
 }
